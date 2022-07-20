@@ -1,7 +1,7 @@
 ## BI computation from OOMPA Suite
 bimodalIndex <- function(x) {
   mc <- try(Mclust(x, G = 2, modelNames = "E"), silent=TRUE)
-  if(class(mc)!='try-error'){
+  if(!inherits(mc, 'try-error')) {
     sigma <- sqrt(mc$parameters$variance$sigmasq)
     delta <- abs(diff(mc$parameters$mean))/sigma
     pi <- mc$parameters$pro[1]
@@ -96,7 +96,7 @@ dichotomizeCN <- function(CN, CNctr=NULL, tau1=-0.3, tau2=0.3){
 dichotomize <- function(mat, matCtr, assayType=c('Expr', 'Methy', 'CN'), ...){
   assayType <- try(match.arg(assayType, c('Expr', 'Methy', 'CN'), several.ok=FALSE), silent=TRUE)
 	# stop if assays not recognizable.
-  if(class(assayType)=='try-error') stop('Assays other than expression, methylation or copy number is specified. Please
+  if(inherits(assayType, 'try-error')) stop('Assays other than expression, methylation or copy number is specified. Please
 		dichotomize them mannually!\n')
   res <- switch(assayType, 'Expr'=dichotomizeExpr(mat, matCtr, ...),
                 'Methy'=dichotomizeMethy(mat, matCtr, ...),
