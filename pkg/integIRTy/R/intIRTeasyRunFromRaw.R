@@ -4,7 +4,7 @@ intIRTeasyRunFromRaw <- function(platforms, platformsCtr, assayType=c('Expr', 'M
   assayType <- try(match.arg(assayType, c('Expr', 'Methy', 'CN'), several.ok=TRUE), silent=TRUE)
   if (is.null(permutationMethod)) permutationMethod <- "none"
 	# stop if assays not recognizable.
-  if(class(assayType)=='try-error') stop('Assays other than expression, methylation or copy number is specified. Please
+  if(inherits(assayType, 'try-error')) stop('Assays other than expression, methylation or copy number is specified. Please
 		dichtomize them mannually and pass them to intIRTeasyRun!\n')
   nPlat <- length(platforms)
   if(nPlat!=length(platformsCtr)) stop('Number of assays in tumor samples should equal to the number in normal controls!\n')
@@ -17,7 +17,7 @@ intIRTeasyRunFromRaw <- function(platforms, platformsCtr, assayType=c('Expr', 'M
   if(permutationMethod != 'none'){
     permutationMethod <- try(match.arg(permutationMethod, c('gene sampling', 'sample label permutation'),
                                        several.ok=FALSE), silent=TRUE)
-    if(class(permutationMethod)=='try-error') stop('Permutation method can only be: gene sampling, sample label permutation or NULL!\n')
+    if(inherits(permutationMethod, 'try-error')) stop('Permutation method can only be: gene sampling, sample label permutation or NULL!\n')
   }	
 	########################################
 	# dichtomize and easyRun on the dichotomized datasets
